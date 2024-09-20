@@ -41,7 +41,6 @@ languages = [
     "LaTeX",
     "Lua",
     "Markdown",
-    "Markdown",
     "Nim",
     "Nix",
     "OCaml",

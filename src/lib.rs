@@ -105,8 +105,8 @@ impl TyposExtension {
             }
         )
     }
-    
-    fn clean_other_installations(version_to_keep: &String) -> Result<(), String>{
+
+    fn clean_other_installations(version_to_keep: &String) -> Result<(), String> {
         let entries =
             fs::read_dir(".").map_err(|e| format!("failed to list working directory {e}"))?;
         for entry in entries {
