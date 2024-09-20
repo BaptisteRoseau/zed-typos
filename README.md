@@ -15,7 +15,7 @@ The Typos extension can be configured through a `.typos.toml` configuration file
 
 Additionally, you can configure it in your Zed's settings with the following:
 
-```json
+```javascript
 {
     "lsp": {
         "typos": {
