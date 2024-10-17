@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, path::Path};
 
 use zed_extension_api::{
     self as zed, settings::LspSettings, Architecture, Command, LanguageServerId, Os, Result,
@@ -62,7 +62,11 @@ impl TyposExtension {
             .ok_or_else(|| format!("no asset found matching {:?}", asset_name))?;
 
         let version_dir = format!("typos-lsp-{}", version);
-        let binary_path = format!("{version_dir}/typos-lsp");
+        let binary_path = Path::new(&version_dir)
+            .join(Self::binary_path_within_archive(&platform, &architecture))
+            .to_str()
+            .expect("Could not convert binary path to str")
+            .to_string();
 
         if !fs::metadata(&binary_path).map_or(false, |stat| stat.is_file()) {
             zed::set_language_server_installation_status(
@@ -86,6 +90,8 @@ impl TyposExtension {
         })
     }
 
+    /// The name of the archive found under the "Release" tabs of the GitHub repository,
+    /// depending on the version, platform and architecture.
     fn binary_release_name(version: &String, platform: &Os, architecture: &Architecture) -> String {
         format!(
             "typos-lsp-{version}-{arch}-{os}.{ext}",
@@ -106,6 +112,35 @@ impl TyposExtension {
         )
     }
 
+    /// The path of the binary inside the archive.
+    fn binary_path_within_archive(platform: &Os, architecture: &Architecture) -> String {
+        let path = match platform {
+            zed::Os::Windows => Path::new("target")
+                .join(format!(
+                    "{arch}-{os}",
+                    arch = match architecture {
+                        Architecture::Aarch64 => "aarch64",
+                        Architecture::X86 | Architecture::X8664 => "x86_64",
+                    },
+                    os = match platform {
+                        zed::Os::Mac => "apple-darwin",
+                        zed::Os::Linux => "unknown-linux-gnu",
+                        zed::Os::Windows => "pc-windows-msvc",
+                    },
+                ))
+                .join("release")
+                .join("typos-lsp.exe")
+                .as_path()
+                .to_owned(),
+            _ => Path::new("typos-lsp").to_owned(),
+        };
+        path.to_str()
+            .expect("Could not convert binary path to str")
+            .to_string()
+    }
+
+    /// Remove every typos-lsp version directories within its Zed extension directory,
+    /// except for the version specified as [`version_to_keep`].
     fn clean_other_installations(version_to_keep: &String) -> Result<(), String> {
         let entries =
             fs::read_dir(".").map_err(|e| format!("failed to list working directory {e}"))?;
@@ -246,6 +281,19 @@ mod tests {
                 &Architecture::X8664
             ),
             "typos-lsp-v0.1.23-x86_64-unknown-linux-gnu.tar.gz".to_string()
+        );
+    }
+
+    #[test]
+    #[cfg(target_os = "linux")]
+    fn binary_name_within_extension() {
+        assert_eq!(
+            TyposExtension::binary_path_within_archive(&Os::Mac, &Architecture::X8664),
+            "typos-lsp".to_string()
+        );
+        assert_eq!(
+            TyposExtension::binary_path_within_archive(&Os::Windows, &Architecture::X8664),
+            "target/x86_64-pc-windows-msvc/release/typos-lsp.exe".to_string()
         );
     }
 }
