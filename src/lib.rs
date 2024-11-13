@@ -117,15 +117,10 @@ impl TyposExtension {
         let path = match platform {
             zed::Os::Windows => Path::new("target")
                 .join(format!(
-                    "{arch}-{os}",
+                    "{arch}-pc-windows-msvc",
                     arch = match architecture {
                         Architecture::Aarch64 => "aarch64",
                         Architecture::X86 | Architecture::X8664 => "x86_64",
-                    },
-                    os = match platform {
-                        zed::Os::Mac => "apple-darwin",
-                        zed::Os::Linux => "unknown-linux-gnu",
-                        zed::Os::Windows => "pc-windows-msvc",
                     },
                 ))
                 .join("release")
