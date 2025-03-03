@@ -1,6 +1,6 @@
 id = "typos"
-name = "Typos"
-description = "Typos Language Server support for Zed editor"
+name = "Typos spell checker"
+description = "Low false-positive source code spell checker."
 version = "0.0.4"
 schema_version = 1
 authors = ["Baptiste Roseau <broseau@gmail.com>"]
