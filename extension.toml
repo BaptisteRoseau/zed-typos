@@ -1,7 +1,7 @@
 id = "typos"
 name = "Typos spell checker"
 description = "Low false-positive source code spell checker."
-version = "0.0.4"
+version = "0.0.5"
 schema_version = 1
 authors = ["Baptiste Roseau <broseau@gmail.com>"]
 repository = "https://github.com/BaptisteRoseau/zed-typos"
