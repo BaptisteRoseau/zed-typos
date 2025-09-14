@@ -24,9 +24,9 @@ Additionally, you can configure it in your Zed's settings with the following:
                 "config": ".typos.toml",
                 // Path to your typos-lsp executable, takes $PATH into account.
                 "path": "typos-lsp",
-                // Diagnostic severity within Zed. "Error" by default, can be:
+                // Diagnostic severity within Zed. "Information" by default, can be:
                 // "Error", "Hint", "Information", "Warning"
-                "diagnosticSeverity": "Error",
+                "diagnosticSeverity": "Information",
                 // Minimum logging level for the LSP, displayed in Zed's logs. "info" by default, can be:
                 // "debug", "error", "info", "off", "trace", "warn"
                 "logLevel": "info",
