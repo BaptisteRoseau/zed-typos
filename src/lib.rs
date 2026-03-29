@@ -102,7 +102,7 @@ impl TyposExtension {
             },
             os = match platform {
                 zed::Os::Mac => "apple-darwin",
-                zed::Os::Linux => "unknown-linux-gnu",
+                zed::Os::Linux => "unknown-linux-musl",
                 zed::Os::Windows => "pc-windows-msvc",
             },
             ext = match platform {
