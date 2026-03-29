@@ -9,6 +9,12 @@ This is a great alternative for CI/CD integration, but I would suggest using bot
 
 You can install this extension directly through Zed's extension marketplace.
 
+## Issues
+
+This extension merely downloads then launches the LSP through Zed. The Zed extension API being as thin as it is today we cannot add custom commands to interact with it directly (to toggle the LSP for specific files for example).
+
+For issues related to code actions or the `typos-lsp` crate, please send them over to the [tekumara/typos-lsp](https://github.com/tekumara/typos-lsp) repository.
+
 ## Configuration
 
 The Typos extension can be configured through a `.typos.toml` configuration file, which reference can be found [here](https://github.com/crate-ci/typos/blob/master/docs/reference.md).
