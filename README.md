@@ -20,16 +20,15 @@ For issues related to code actions or the `typos-lsp` crate, please send them ov
 The Typos extension can be configured through a `.typos.toml` configuration file, which reference can be found [here](https://github.com/crate-ci/typos/blob/master/docs/reference.md).
 
 Zed configuration for the typos-lsp server is entirely optional and only needed if you want to customise typos-lsp.
-Everything under `initialization_options` is passed to the server during initialization.
 
-The `binary` section can be used to choose the executable, pass extra argv, or set process environment variables.
-See Zed’s [Configuring Languages](https://zed.dev/docs/configuring-languages) documentation.
+Everything under `initialization_options` is passed to the server during initialization.
 
 ```javascript
 {
     "lsp": {
         "typos": {
             // Optional. Omit the entire "binary" object to use Zed’s default typos-lsp discovery.
+            // See https://zed.dev/docs/configuring-languages
             "binary": {
                 // Prefer your install instead of auto-download when applicable.
                 "ignore_system_version": false,
