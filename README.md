@@ -30,7 +30,7 @@ Everything under `initialization_options` is passed to the server during initial
             // Optional. Omit the entire "binary" object to use Zed’s default typos-lsp discovery.
             // See https://zed.dev/docs/configuring-languages
             "binary": {
-                // Prefer your install instead of auto-download when applicable.
+                // Prefer your install instead of auto-downloaded version
                 "ignore_system_version": false,
                 "path": "/absolute/path/to/typos-lsp",
                 "arguments": [],
