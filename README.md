@@ -19,31 +19,39 @@ For issues related to code actions or the `typos-lsp` crate, please send them ov
 
 The Typos extension can be configured through a `.typos.toml` configuration file, which reference can be found [here](https://github.com/crate-ci/typos/blob/master/docs/reference.md).
 
-Additionally, you can configure it in your Zed's settings with the following:
+Zed configuration for the typos-lsp server is entirely optional and only needed if you want to customise typos-lsp.
+
+Everything under `initialization_options` is passed to the server during initialization.
 
 ```javascript
 {
     "lsp": {
         "typos": {
+            // Optional. Omit the entire "binary" object to use Zed’s default typos-lsp discovery.
+            // See https://zed.dev/docs/configuring-languages
+            "binary": {
+                // Prefer your install instead of auto-downloaded version
+                "ignore_system_version": false,
+                "path": "/absolute/path/to/typos-lsp",
+                "arguments": [],
+                "env": {
+                    // Logging level for the raw language server logs (defaults to error).
+                    // Raw logs appear in the LSP Logs under Server Logs when Log level = Log
+                    "RUST_LOG": "typos_lsp=error"
+                }
+            },
             "initialization_options": {
-                // Path to your typos config file, .typos.toml by default.
-                "config": ".typos.toml",
-                // Path to your typos-lsp executable, takes $PATH into account.
-                "path": "typos-lsp",
+                // Custom config. Used together with a config file found in the workspace or its parents,
+                // taking precedence for settings declared in both.
+                // Equivalent to the typos `--config` cli argument.
+                "config": "~/code/typos-lsp/crates/typos-lsp/tests/typos.toml",
                 // Diagnostic severity within Zed. "Information" by default, can be:
                 // "Error", "Hint", "Information", "Warning"
                 "diagnosticSeverity": "Information",
-                // Minimum logging level for the LSP, displayed in Zed's logs. "info" by default, can be:
-                // "debug", "error", "info", "off", "trace", "warn"
-                "logLevel": "info",
-                // Traces the communication between ZED and the language server. Recommended for debugging only. "off" by default, can be:
-                // "messages", "off", "verbose"
-                "trace.server": "off"
             }
         }
     }
 }
 ```
 
-**WARNING**: When modifying your Typos configuration either in `typos.toml` or `Cargo.toml` you will need to reload the workspace to take them into account.
-You do not need to reload when editing Zed's `settings.json`.
+**WARNING**: When modifying your Typos configuration in `typos.toml` or `Cargo.toml`, you will need to reload the workspace for the changes to take effect.
